@@ -62,7 +62,7 @@ class PaddingDemo extends StatelessWidget {
       padding: EdgeInsets.only(
           top: 50
       ),
-      child: Text("你好啊,李银河", style: TextStyle(fontSize: 20, backgroundColor: Colors.red),),
+      child: Text("你好啊,哈哈哈", style: TextStyle(fontSize: 20, backgroundColor: Colors.red),),
     );
   }
 }
