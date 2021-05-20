@@ -2,6 +2,7 @@
 
 
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import "dart:io";
 
@@ -24,41 +25,29 @@ class MyApp extends StatelessWidget {
 }
 
 class HYHomePage extends StatelessWidget {
-
-  // Future<String> getNetworkData() {
-  //   return Future<String>(() {
-  //     sleep(Duration(seconds: 3));
-  //     // 不再返回结果，而是出现异常
-  //     return "network data";
-  //     // throw Exception("网络请求出现错误");
-  //   });
-  // }
-
-  Future getNetworkData() async {
-    var result = await Future.delayed(Duration(seconds: 1), () {
-      return "pppooo";
-    });
-    return result + "888999";
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("GridView测试"),
-      ),
-      body: Container(
-        child: TextButton(child: Text("FutureButton"), onPressed: () {
-          getNetworkData().then((value)  {
-            print(value);
-            return value + "111";
-          }).then((value) => value + "222")
-          .then((value) {
-            print(value);
-          });
-        },),
-      )
+    return Container(
+      color: Colors.red,
+      child: TextButton(child: Text("获取数据"),onPressed: () {
+        dioNetwork();
+      },),
     );
+  }
+}
+
+void dioNetwork() async {
+  // 1.创建Dio请求对象
+  final dio = Dio();
+
+  // 2.发送网络请求
+  final response = await dio.get("http://123.207.32.32:8000/api/v1/recommend");
+
+  // 3.打印请求结果
+  if (response.statusCode == HttpStatus.ok) {
+    print(response.data);
+  } else {
+    print("请求失败：${response.statusCode}");
   }
 }
 
