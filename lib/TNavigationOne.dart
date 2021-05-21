@@ -1,33 +1,5 @@
 
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-
-void main() {
-  // runApp(MyApp());
-  runApp(
-      MyApp()
-  );
-}
-
-// main() => runApp(TRowCheckBox());
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-          primarySwatch: Colors.blue, splashColor: Colors.transparent
-      ),
-      initialRoute: "/home",
-      routes: {
-        "/home": (ctx) => TNavigationTestOne(),
-        "/detail": (ctx) => HYDetailPage("111222333")
-      },
-    );
-  }
-}
 
 class TNavigationTestOne extends StatelessWidget {
 
@@ -37,7 +9,7 @@ class TNavigationTestOne extends StatelessWidget {
       appBar: AppBar(
         title: Text("我是第一页标题",
           style: TextStyle(
-            color: Colors.black
+              color: Colors.black
           ),
         ),
         backgroundColor: Colors.white,
@@ -45,7 +17,10 @@ class TNavigationTestOne extends StatelessWidget {
       body: Container(
         child: TextButton(
             onPressed: () {
-              Future future = Navigator.of(context).pushNamed("/detail");
+              Future future = Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
+                return HYDetailPage("my message");
+              }));
+
 
               future.then((res) {
                 print(res);
@@ -70,7 +45,14 @@ class HYDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+      // 当返回为true时,可以自动返回(flutter帮助我们执行返回操作)
+      // 当返回为false时, 自行写返回代码
+      onWillPop: () {
+        _backToHome(context);
+        return Future.value(false);
+      },
+      child: Scaffold(
         appBar: AppBar(
           title: Text("详情页"),
 //        leading: IconButton(
@@ -90,7 +72,8 @@ class HYDetailPage extends StatelessWidget {
             ],
           ),
         ),
-      );
+      ),
+    );
   }
 
   void _backToHome(BuildContext context) {
